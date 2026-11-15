@@ -1,0 +1,54 @@
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Календарь</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    table { border-collapse: collapse; }
+    th, td { border: 1px solid #999; width: 45px; height: 35px; text-align: center; }
+    th { background: #eee; }
+    .today { background: #ffd54f; font-weight: bold; }
+    .weekend { color: #c00; }
+  </style>
+</head>
+<body>
+  <h2 id="title"></h2>
+  <table id="cal"></table>
+
+  <script>
+    const months = ['Январь','Февраль','Март','Апрель','Май','Июнь',
+                    'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+    const week = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();      // 0..11
+    const today = now.getDate();
+
+    document.getElementById('title').textContent = months[month] + ' ' + year;
+
+    const firstDay = (new Date(year, month, 1).getDay() + 6) % 7; // Пн = 0
+    const daysCount = new Date(year, month + 1, 0).getDate();
+
+    let html = '<tr>' + week.map((d, i) =>
+      `<th class="${i > 4 ? 'weekend' : ''}">${d}</th>`).join('') + '</tr><tr>';
+
+    let col = 0;
+    for (let i = 0; i < firstDay; i++) { html += '<td></td>'; col++; }
+
+    for (let d = 1; d <= daysCount; d++) {
+      let cls = [];
+      if (d === today) cls.push('today');
+      if (col % 7 > 4) cls.push('weekend');
+      html += `<td class="${cls.join(' ')}">${d}</td>`;
+      col++;
+      if (col % 7 === 0 && d < daysCount) html += '</tr><tr>';
+    }
+
+    while (col % 7 !== 0) { html += '<td></td>'; col++; }
+    html += '</tr>';
+
+    document.getElementById('cal').innerHTML = html;
+  </script>
+</body>
+</html>

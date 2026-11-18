@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Конструктор визиток</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+  body { display: flex; min-height: 100vh; }
+
+  .panel { width: 480px; background: #fff; padding: 28px 32px; }
+  .panel h1 { font-size: 17px; margin-bottom: 22px; color: #333; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; }
+  .row { display: flex; align-items: center; gap: 10px; }
+  .row input[type=text] { flex: 1; }
+  input[type=text] {
+    padding: 6px 9px; font-size: 13px; border: 1px solid #bbb; border-radius: 4px; outline: none;
+  }
+  input[type=text]:focus { border-color: #66a3ff; }
+
+  .toggles { display: flex; gap: 4px; }
+  .tog {
+    width: 28px; height: 26px; border: 1px solid #bbb; border-radius: 4px; background: #fff;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #444;
+  }
+  .tog.active { background: #d8d8d8; border-color: #888; }
+  .tog svg { width: 15px; height: 12px; fill: #333; }
+
+  .swatches { display: flex; gap: 8px; margin-top: 10px; }
+  .swatch {
+    width: 18px; height: 18px; border-radius: 50%; cursor: pointer;
+    border: 1px solid rgba(0,0,0,.25);
+  }
+  .swatch.active { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #555; }
+
+  .add-phone { font-size: 12px; color: #555; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; margin: 2px 0 14px; }
+  .add-phone .plus {
+    width: 16px; height: 16px; background: #777; color: #fff; border-radius: 4px;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold;
+  }
+  .phone-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+
+  .field-row { display: flex; align-items: flex-end; gap: 10px; }
+  .field-row > div { flex: 1; }
+  .field-row input[type=text] { width: 100%; }
+  .check { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #555; margin-bottom: 7px; white-space: nowrap; cursor: pointer; }
+  .check input { accent-color: #444; }
+
+  .apply {
+    margin-top: 18px; padding: 9px 26px; background: #2f8bff; color: #fff;
+    border: none; border-radius: 18px; font-size: 14px; cursor: pointer;
+  }
+  .apply:hover { background: #1f7ae8; }
+
+  .preview {
+    flex: 1; display: flex; align-items: flex-start; justify-content: center; padding-top: 60px;
+    background:
+      repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0 2px, transparent 2px 4px),
+      #cfcfcf;
+  }
+  .card {
+    width: 320px; min-height: 180px; background: #fff; border-radius: 2px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.25); padding: 22px 26px; text-align: center;
+  }
+  .card .org   { font-size: 9px; color: #333; margin-bottom: 16px; }
+  .card .name  { font-size: 24px; font-weight: bold; color: #000; margin-bottom: 6px; }
+  .card .post  { font-size: 14px; color: #666; margin-bottom: 18px; }
+  .card .contacts div { font-size: 10px; color: #333; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <h1>Конструктор визиток</h1>
+
+  <div class="field">
+    <label>Наименование организации</label>
+    <input type="text" id="org" value='ООО "Ориентир"'>
+  </div>
+
+  <div class="field">
+    <label>Фамилия, имя, отчество</label>
+    <div class="row">
+      <input type="text" id="name" value="Фёдоров Иван Семенович">
+      <div class="toggles" data-group="nameAlign">
+        <button class="tog" data-val="left"><svg viewBox="0 0 15 12"><rect width="15" height="2"/><rect y="5" width="10" height="2"/><rect y="10" width="15" height="2"/></svg></button>
+        <button class="tog active" data-val="center"><svg viewBox="0 0 15 12"><rect width="15" height="2"/><rect x="2.5" y="5" width="10" height="2"/><rect width="15" y="10" height="2"/></svg></button>
+        <button class="tog" data-val="right"><svg viewBox="0 0 15 12"><rect width="15" height="2"/><rect x="5" y="5" width="10" height="2"/><rect width="15" y="10" height="2"/></svg></button>
+      </div>
+      <div class="toggles" data-group="nameSize">
+        <button class="tog active" data-val="24">24px</button>
+        <button class="tog" data-val="26">26px</button>
+        <button class="tog" data-val="28">28px</button>
+      </div>
+    </div>
+    <div class="swatches" data-group="nameColor">
+      <span class="swatch active" data-val="#000000" style="background:#000"></span>
+      <span class="swatch" data-val="#2f8bff" style="background:#2f8bff"></span>
+      <span class="swatch" data-val="#e33" style="background:#e33"></span>
+      <span class="swatch" data-val="#2ecc40" style="background:#2ecc40"></span>
+      <span class="swatch" data-val="#ffdc00" style="background:#ffdc00"></span>
+      <span class="swatch" data-val="#f012be" style="background:#f012be"></span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Должность</label>
+    <div class="row">
+      <input type="text" id="post" value="Менеджер по развитию">
+      <div class="toggles" data-group="postAlign">
+        <button class="tog" data-val="left"><svg viewBox="0 0 15 12"><rect width="15" height="2"/><rect y="5" width="10" height="2"/><rect y="10" width="15" height="2"/></svg></button>
+        <button class="tog active" data-val="center"><svg viewBox="0 0 15 12"><rect width="15" height="2"/><rect x="2.5" y="5" width="10" height="2"/><rect width="15" y="10" height="2"/></svg></button>
+        <button class="tog" data-val="right"><svg viewBox="0 0 15 12"><rect width="15" height="2"/><rect x="5" y="5" width="10" height="2"/><rect width="15" y="10" height="2"/></svg></button>
+      </div>
+      <div class="toggles" data-group="postSize">
+        <button class="tog active" data-val="14">14px</button>
+        <button class="tog" data-val="16">16px</button>
+        <button class="tog" data-val="18">18px</button>
+      </div>
+    </div>
+    <div class="swatches" data-group="postColor">
+      <span class="swatch" data-val="#ffffff" style="background:#fff"></span>
+      <span class="swatch" data-val="#000000" style="background:#000"></span>
+      <span class="swatch" data-val="#333333" style="background:#333"></span>
+      <span class="swatch active" data-val="#666666" style="background:#666"></span>
+      <span class="swatch" data-val="#999999" style="background:#999"></span>
+      <span class="swatch" data-val="#cccccc" style="background:#ccc"></span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Телефон</label>
+    <div class="phone-list" id="phoneList">
+      <input type="text" class="phone" value="8 (999) 123-45-67">
+    </div>
+    <span class="add-phone" id="addPhone"><span class="plus">+</span> Добавить еще один телефон</span>
+  </div>
+
+  <div class="field">
+    <div class="field-row">
+      <div>
+        <label>E-mail</label>
+        <input type="text" id="email" value="fedorov.is@orientir.org">
+      </div>
+      <label class="check"><input type="checkbox" id="emailShow" checked> Отображать</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="field-row">
+      <div>
+        <label>Адрес</label>
+        <input type="text" id="address" value="Иркутск, Байкальская, 421, оф. 12">
+      </div>
+      <label class="check"><input type="checkbox" id="addressShow" checked> Отображать</label>
+    </div>
+  </div>
+
+  <button class="apply" id="applyBtn">Применить</button>
+</div>
+
+<div class="preview">
+  <div class="card">
+    <div class="org" id="cOrg"></div>
+    <div class="name" id="cName"></div>
+    <div class="post" id="cPost"></div>
+    <div class="contacts" id="cContacts"></div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-group]').forEach(group => {
+    group.addEventListener('click', e => {
+      const btn = e.target.closest('.tog, .swatch');
+      if (!btn) return;
+      group.querySelectorAll('.tog, .swatch').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  const getVal = g => document.querySelector(`[data-group="${g}"] .active`).dataset.val;
+
+  document.getElementById('addPhone').addEventListener('click', () => {
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.className = 'phone';
+    inp.placeholder = '+7 (___) ___-__-__';
+    document.getElementById('phoneList').appendChild(inp);
+  });
+
+  document.getElementById('applyBtn').addEventListener('click', () => {
+    const cName = document.getElementById('cName');
+    const cPost = document.getElementById('cPost');
+
+    document.getElementById('cOrg').textContent = document.getElementById('org').value;
+
+    cName.textContent = document.getElementById('name').value;
+    cName.style.textAlign = getVal('nameAlign');
+    cName.style.fontSize  = getVal('nameSize') + 'px';
+    cName.style.color     = getVal('nameColor');
+
+    cPost.textContent = document.getElementById('post').value;
+    cPost.style.textAlign = getVal('postAlign');
+    cPost.style.fontSize  = getVal('postSize') + 'px';
+    cPost.style.color     = getVal('postColor');
+
+    const contacts = document.getElementById('cContacts');
+    contacts.innerHTML = '';
+
+    const addLine = text => {
+      const d = document.createElement('div');
+      d.textContent = text;
+      contacts.appendChild(d);
+    };
+
+    document.querySelectorAll('.phone').forEach(p => {
+      if (p.value.trim()) addLine(p.value.trim());
+    });
+    if (document.getElementById('emailShow').checked && document.getElementById('email').value.trim())
+      addLine(document.getElementById('email').value.trim());
+    if (document.getElementById('addressShow').checked && document.getElementById('address').value.trim())
+      addLine(document.getElementById('address').value.trim());
+  });
+
+  document.getElementById('applyBtn').click();
+</script>
+</body>
+</html>
